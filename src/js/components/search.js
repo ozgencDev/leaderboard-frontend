@@ -31,6 +31,7 @@ export default function Search() {
         .get(`http://localhost:3000/api/leaderboard/${values.search}`)
         .then((res) => {
           console.log(res.data);
+          sessionStorage.setItem("users", JSON.stringify(res.data));
           navigate(`/leaderboard`);
         })
         .catch((err) => {
@@ -39,7 +40,10 @@ export default function Search() {
     },
   });
   return (
-    <div className="flex flex-col h-screen w-screen justify-center items-center">
+    <div
+      className="flex flex-col h-screen w-screen justify-center items-center"
+      style={{ backgroundColor: "black" }}
+    >
       <form onSubmit={formik.handleSubmit}>
         <label htmlFor="search">Search</label>
         <input
