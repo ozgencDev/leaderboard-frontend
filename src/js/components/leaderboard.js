@@ -3,6 +3,7 @@ import React, { useState, useLayoutEffect, useEffect } from "react";
 
 import { useTable, usePagination } from "react-table";
 import "bootstrap/dist/css/bootstrap.min.css";
+import axios from "axios";
 
 const useWindowWidth = () => {
   const [width, setWidth] = useState(window.innerWidth);
@@ -156,9 +157,19 @@ function Table({ columns, data }) {
 
 function LeaderBoard() {
   const [users, setUsers] = useState([]);
-  useEffect(() => {
+  useEffect(async () => {
     const data = sessionStorage.getItem("users");
+    const id = sessionStorage.getItem("id");
     setUsers(JSON.parse(data));
+
+    const res = await axios.get("http://localhost:3000/api/leaderboard/" + id);
+    sessionStorage.setItem("users", JSON.stringify(res.data));
+    const newData = sessionStorage.getItem("users");
+    setUsers([...JSON.parse(newData)]);
+    console.log("ses");
+    return () => {
+      sessionStorage.removeItem("users");
+    };
   }, []);
 
   const columns = React.useMemo(

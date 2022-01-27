@@ -32,6 +32,7 @@ export default function Search() {
         .then((res) => {
           console.log(res.data);
           sessionStorage.setItem("users", JSON.stringify(res.data));
+          sessionStorage.setItem("id", values.search);
           navigate(`/leaderboard`);
         })
         .catch((err) => {
