@@ -170,15 +170,40 @@ function LeaderBoard() {
   useEffect(async () => {
     const data = localStorage.getItem("users");
     const id = sessionStorage.getItem("id");
-    setUsers(JSON.parse(data));
-
     const res = await axios.get("http://localhost:3000/api/leaderboard/" + id);
-    sessionStorage.setItem("users", JSON.stringify(res.data));
+    const map1 = new Map();
+    const map2 = new Map();
+    JSON.parse(data).forEach((user) => {
+      map1.set(user.id, user.rank);
+    });
+    console.log(map1);
+    res.data.forEach((user, index) => {
+      map2.set(user.id, user.rank);
+    });
+    const hashArr = [];
+    map2.forEach((value, key) => {
+      const diff = map1.get(key) - value;
+      hashArr.push({ id: key, diff: diff });
+    });
+
+    const diffRankUsers = res.data.map((user, index) => {
+      try {
+        return Object.assign(user, hashArr[index]);
+      } catch (err) {
+        return user;
+      }
+    });
+
+    localStorage.setItem("users", JSON.stringify(res.data));
+    console.log(diffRankUsers);
+    setUsers([...diffRankUsers]);
+
+    /*  sessionStorage.setItem("users", JSON.stringify(res.data));
     const newData = sessionStorage.getItem("users");
-    setUsers([...JSON.parse(newData)]);
+    setUsers([...JSON.parse(newData)]); */
 
     return () => {
-      sessionStorage.removeItem("users");
+      localStorage.removeItem("users");
     };
   }, []);
 
@@ -213,6 +238,10 @@ function LeaderBoard() {
             Header: "Country",
             accessor: "country",
           },
+          {
+            Header: "Difference",
+            accessor: "diff",
+          },
         ],
       },
     ],
@@ -224,10 +253,15 @@ function LeaderBoard() {
       columns={columns}
       data={users}
       getRowProps={(row) => ({
-        onClick: () => alert(JSON.stringify(row.values.rank)),
+        onClick: () => alert(JSON.stringify(row.values.diff)),
         style: {
           cursor: "pointer",
-          color: row.values.rank === 1 ? "red" : null,
+          color:
+            row.values.diff > 0
+              ? "green"
+              : row.values.diff === 0
+              ? "green"
+              : "red",
         },
       })}
     />
