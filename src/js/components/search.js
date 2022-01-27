@@ -41,23 +41,26 @@ export default function Search() {
     },
   });
   return (
-    <div
-      className="flex flex-col h-screen w-screen justify-center items-center"
-      style={{ backgroundColor: "black" }}
-    >
+    <div id="cover">
       <form onSubmit={formik.handleSubmit}>
-        <label htmlFor="search">Search</label>
-        <input
-          id="search"
-          type="search"
-          pattern=".*\S.*"
-          required
-          name="search"
-          type="search"
-          onChange={formik.handleChange}
-          value={formik.values.search}
-        />
-        <button className="caret"></button>
+        <div class="tb">
+          <div className="td">
+            {" "}
+            <input
+              placeholder="Username"
+              name="search"
+              type="search"
+              onChange={formik.handleChange}
+              value={formik.values.search}
+            />
+          </div>
+          <div class="td" id="s-cover">
+            <button className="searchButton">
+              <div id="s-circle"></div>
+              <span></span>
+            </button>
+          </div>
+        </div>
       </form>
     </div>
   );

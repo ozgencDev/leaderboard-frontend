@@ -253,7 +253,6 @@ function LeaderBoard() {
       columns={columns}
       data={users}
       getRowProps={(row) => ({
-        onClick: () => alert(JSON.stringify(row.values.diff)),
         style: {
           cursor: "pointer",
           color:
