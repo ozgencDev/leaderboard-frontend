@@ -38,7 +38,7 @@ function Table({ columns, data }) {
     {
       columns,
       data,
-      initialState: { pageIndex: 1, pageSize: 5 },
+      initialState: { pageIndex: 0, pageSize: 5 },
     },
     usePagination
   );
