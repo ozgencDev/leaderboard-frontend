@@ -31,7 +31,7 @@ export default function Search() {
         .get(`http://localhost:3000/api/leaderboard/${values.search}`)
         .then((res) => {
           console.log(res.data);
-          sessionStorage.setItem("users", JSON.stringify(res.data));
+          localStorage.setItem("users", JSON.stringify(res.data));
           sessionStorage.setItem("id", values.search);
           navigate(`/leaderboard`);
         })

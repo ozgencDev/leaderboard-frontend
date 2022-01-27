@@ -168,7 +168,7 @@ function Table({ columns, data, getRowProps = () => ({}) }) {
 function LeaderBoard() {
   const [users, setUsers] = useState([]);
   useEffect(async () => {
-    const data = sessionStorage.getItem("users");
+    const data = localStorage.getItem("users");
     const id = sessionStorage.getItem("id");
     setUsers(JSON.parse(data));
 
