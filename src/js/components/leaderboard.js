@@ -1,7 +1,12 @@
 // src/components/pagination.table.js
 import React, { useState, useLayoutEffect, useEffect } from "react";
 
-import { useTable, usePagination } from "react-table";
+import {
+  useTable,
+  usePagination,
+  useRowSelect,
+  useRowState,
+} from "react-table";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 
@@ -17,8 +22,9 @@ const useWindowWidth = () => {
   return width;
 };
 
-function Table({ columns, data }) {
+function Table({ columns, data, getRowProps = () => ({}) }) {
   const windowWidth = useWindowWidth();
+
   // Use the state and functions returned from useTable to build your UI
   const {
     getTableProps,
@@ -34,6 +40,9 @@ function Table({ columns, data }) {
     nextPage,
     previousPage,
     setPageSize,
+    rowsById,
+    rows,
+
     state: { pageIndex, pageSize },
   } = useTable(
     {
@@ -41,7 +50,8 @@ function Table({ columns, data }) {
       data,
       initialState: { pageIndex: 0, pageSize: 5 },
     },
-    usePagination
+    usePagination,
+    useRowSelect
   );
 
   // Render the UI for your table
@@ -64,7 +74,7 @@ function Table({ columns, data }) {
             {page.map((row, i) => {
               prepareRow(row);
               return (
-                <tr {...row.getRowProps()}>
+                <tr {...row.getRowProps(getRowProps(row))}>
                   {row.cells.map((cell) => {
                     return (
                       <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
@@ -166,7 +176,7 @@ function LeaderBoard() {
     sessionStorage.setItem("users", JSON.stringify(res.data));
     const newData = sessionStorage.getItem("users");
     setUsers([...JSON.parse(newData)]);
-    console.log("ses");
+
     return () => {
       sessionStorage.removeItem("users");
     };
@@ -180,6 +190,16 @@ function LeaderBoard() {
           {
             Header: "Rank",
             accessor: "rank",
+            cellStyle: (state, rowInfo) => {
+              if (rowInfo && rowInfo.row) {
+                return {
+                  style: {
+                    backgroundColor: rowInfo.row.rank == 1 ? "red" : null,
+                  },
+                };
+              }
+              return {};
+            },
           },
           {
             Header: "Username",
@@ -199,7 +219,19 @@ function LeaderBoard() {
     []
   );
 
-  return <Table columns={columns} data={users} />;
+  return (
+    <Table
+      columns={columns}
+      data={users}
+      getRowProps={(row) => ({
+        onClick: () => alert(JSON.stringify(row.values.rank)),
+        style: {
+          cursor: "pointer",
+          color: row.values.rank === 1 ? "red" : null,
+        },
+      })}
+    />
+  );
 }
 
 export default LeaderBoard;
