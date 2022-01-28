@@ -173,11 +173,14 @@ function LeaderBoard() {
     const res = await axios.get(
       "https://panteon-backend.herokuapp.com/api/leaderboard/" + id
     );
+    /* Map is used to see the change between the old rank and the new rank.
+     The ids are accessed quickly through maps and the rank difference is calculated and added to the table. */
     const map1 = new Map();
     const map2 = new Map();
     JSON.parse(data).forEach((user) => {
       map1.set(user.id, user.rank);
     });
+
     console.log(map1);
     res.data.forEach((user, index) => {
       map2.set(user.id, user.rank);
@@ -199,10 +202,6 @@ function LeaderBoard() {
     localStorage.setItem("users", JSON.stringify(res.data));
     console.log(diffRankUsers);
     setUsers([...diffRankUsers]);
-
-    /*  sessionStorage.setItem("users", JSON.stringify(res.data));
-    const newData = sessionStorage.getItem("users");
-    setUsers([...JSON.parse(newData)]); */
 
     return () => {
       localStorage.removeItem("users");
@@ -249,7 +248,7 @@ function LeaderBoard() {
     ],
     []
   );
-
+  /* getPropsRow colors according to rank change */
   return (
     <Table
       columns={columns}
