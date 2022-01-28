@@ -43,7 +43,7 @@ export default function Search() {
   return (
     <div id="cover">
       <form onSubmit={formik.handleSubmit}>
-        <div class="tb">
+        <div className="tb">
           <div className="td">
             {" "}
             <input
@@ -54,8 +54,8 @@ export default function Search() {
               value={formik.values.search}
             />
           </div>
-          <div class="td" id="s-cover">
-            <button className="searchButton">
+          <div className="td" id="s-cover">
+            <button className="searchButton" type="button">
               <div id="s-circle"></div>
               <span></span>
             </button>
