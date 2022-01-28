@@ -170,7 +170,9 @@ function LeaderBoard() {
   useEffect(async () => {
     const data = localStorage.getItem("users");
     const id = sessionStorage.getItem("id");
-    const res = await axios.get("http://localhost:3000/api/leaderboard/" + id);
+    const res = await axios.get(
+      "https://panteon-backend.herokuapp.com/api/leaderboard/" + id
+    );
     const map1 = new Map();
     const map2 = new Map();
     JSON.parse(data).forEach((user) => {

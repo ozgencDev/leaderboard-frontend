@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const client = axios.create({
-  baseURL: "http://localhost:3000/api/leaderboard",
+  baseURL: "https://panteon-backend.herokuapp.com/api/leaderboard",
   headers: {
     "Content-Type": "application/json",
   },
@@ -28,7 +28,9 @@ export default function Search() {
     },
     onSubmit: (values) => {
       client
-        .get(`http://localhost:3000/api/leaderboard/${values.search}`)
+        .get(
+          `https://panteon-backend.herokuapp.com/api/leaderboard/${values.search}`
+        )
         .then((res) => {
           console.log(res.data);
           localStorage.setItem("users", JSON.stringify(res.data));
