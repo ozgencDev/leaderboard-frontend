@@ -2,10 +2,10 @@
   "name": "frontend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "dev": "parcel ./src/html/index.html",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "parcel build ./src/html/index.html"
   },
   "keywords": [],
   "author": "",
