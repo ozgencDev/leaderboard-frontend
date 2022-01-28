@@ -261,7 +261,7 @@ function LeaderBoard() {
             row.values.diff > 0
               ? "green"
               : row.values.diff === 0
-              ? "yellow"
+              ? "#cca221"
               : "red",
         },
       })}
